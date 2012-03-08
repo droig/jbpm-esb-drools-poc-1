@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.2"  name="trivia">
+
+
+	<start-state name="inicio">
+		<transition to="cobro"></transition>
+	</start-state>
+
+
+	<decision name="cobro exitoso?" expression="#{cobro}" async="true">
+		<event type="node-enter">
+			<script>
+				System.out.println(&quot;Valor de cobro: &quot; + cobro);
+			</script>
+		</event>
+		<transition to="cobro" name="no">
+			<condition expression=""></condition>
+		</transition>
+		<transition to="envio de pregunta" name="si"></transition>
+	</decision>
+
+	<node name="cobro">
+		<action class="org.jboss.soa.esb.services.jbpm.actionhandlers.EsbActionHandler">
+			<esbServiceName>
+				Cobro
+			</esbServiceName>
+			<esbCategoryName>
+				MovixServices
+			</esbCategoryName>
+			<esbToBpmVars>
+				<mapping bpm="cobro" esb="body.cobro"></mapping>
+			</esbToBpmVars>
+			<bpmToEsbVars>
+				<mapping bpm="numero" esb="BODY_CONTENT"></mapping>
+			</bpmToEsbVars>
+		</action>
+		<timer duedate="1 second" name="asdasd">
+			<script>
+				System.out.println(&quot;#############################################&quot;);
+System.out.println(&quot;#############################################&quot;);
+System.out.println(&quot;#############################################&quot;);
+System.out.println(&quot;#############################################&quot;);
+System.out.println(&quot;#############################################&quot;);
+
+			</script>
+		</timer>
+		<transition to="cobro exitoso?"></transition>
+	</node>
+
+	<state name="espera de respuesta" async="true">
+		<event type="node-enter">
+			<script>
+				System.out.println(&quot;esperando la respuesta.... TIMER&quot;);
+			</script>
+		</event>
+		<timer duedate="3 seconds" transition="timer"></timer>
+		<transition to="traer respuesta" name="timer"></transition>
+	</state>
+
+	<node name="envio de pregunta">
+		<action class="org.jboss.soa.esb.services.jbpm.actionhandlers.EsbActionHandler">
+			<esbServiceName>
+				envio_pregunta
+			</esbServiceName>
+			<esbCategoryName>
+				MovixServices
+			</esbCategoryName>
+			<bpmToEsbVars>
+				<mapping bpm="numero" esb="BODY_CONTENT"></mapping>
+			</bpmToEsbVars>
+			<esbToBpmVars>
+				<mapping bpm="pregunta" esb="body.pregunta"></mapping>
+			</esbToBpmVars>
+		</action>
+		<event type="node-enter">
+			<action expression='System.out.println("entrando al envio de pregunta");'></action>
+		</event>
+		<transition to="espera de respuesta"></transition>
+	</node>
+
+	<decision name="respuesta correcta?" async="true" expression="#{eval}">
+		<transition to="sumar puntaje" name="si"></transition>
+		<transition to="cobro" name="no"></transition>
+	</decision>
+
+	<node name="sumar puntaje">
+		<action class="org.jboss.soa.esb.services.jbpm.actionhandlers.EsbActionHandler">
+			<esbServiceName>
+				SumarPuntaje
+			</esbServiceName>
+			<esbCategoryName>
+				MovixServices
+			</esbCategoryName>
+			<bpmToEsbVars>
+				<mapping bpm="numero" esb="BODY_CONTENT"></mapping>
+			</bpmToEsbVars>
+		</action>
+		<event type="node-enter">
+			<script>
+				System.out.println(&quot;verificacion de timeout&quot;);
+			</script>
+			<action class="cl.movix.actions.ConcursoTimeoutHandler" async="true"></action>
+		</event>
+		<transition to="se cumplio tiempo?"></transition>
+	</node>
+
+	<decision name="se cumplio tiempo?" async="true">
+		<transition to="fin" name="si">
+			<condition expression="#{timeOutFlag == true}"></condition>
+		</transition>
+		<transition to="cobro" name="no">
+			<condition>
+				#{timeOutFlag != true}
+			</condition>
+		</transition>
+	</decision>
+
+	<node name="traer respuesta">
+		<action class="org.jboss.soa.esb.services.jbpm.actionhandlers.EsbActionHandler">
+			<esbServiceName>
+				Traer_Respuesta
+			</esbServiceName>
+			<esbCategoryName>
+				MovixServices
+			</esbCategoryName>
+			<bpmToEsbVars>
+				<mapping bpm="numero" esb="BODY_CONTENT"></mapping>
+			</bpmToEsbVars>
+			<esbToBpmVars>
+				<mapping bpm="respuesta" esb="body.respuesta"></mapping>
+			</esbToBpmVars>
+		</action>
+		<transition to="hay respuesta?"></transition>
+	</node>
+
+	<decision name="hay respuesta?" async="true">
+		<transition to="espera de respuesta" name="no">
+			<condition expression="#{respuesta == null}"></condition>
+		</transition>
+		<transition to="evaluar" name="si">
+			<condition expression="#{respuesta != null}"></condition>
+		</transition>
+	</decision>
+
+	<node name="evaluar">
+		<action class="org.jboss.soa.esb.services.jbpm.actionhandlers.EsbActionHandler">
+			<esbServiceName>
+				Evaluar_Respuesta
+			</esbServiceName>
+			<esbCategoryName>
+				MovixServices
+			</esbCategoryName>
+			<bpmToEsbVars>
+				<mapping bpm="respuesta" esb="body.respuesta"></mapping>
+				<mapping bpm="pregunta" esb="body.pregunta"></mapping>
+				<mapping bpm="numero" esb="BODY_CONTENT"></mapping>
+			</bpmToEsbVars>
+			<esbToBpmVars>
+				<mapping bpm="eval" esb="body.eval"></mapping>
+			</esbToBpmVars>
+		</action>
+		<transition to="respuesta correcta?"></transition>
+	</node>
+
+	<end-state name="fin"></end-state>
+
+</process-definition>

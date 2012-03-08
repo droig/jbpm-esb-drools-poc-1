@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="trivia" width="1063" height="563">
+  <node name="inicio" x="21" y="11" width="151" height="62">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cobro exitoso?" x="540" y="60" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-48" h1="-42" w2="156" h2="-42"/>
+      <bendpoint w1="-163" h1="-42" w2="41" h2="-42"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cobro" x="336" y="60" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="espera de respuesta" x="528" y="264" width="157" height="36">
+    <edge>
+      <label x="6" y="-10"/>
+    </edge>
+  </node>
+  <node name="envio de pregunta" x="540" y="168" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="respuesta correcta?" x="336" y="168" width="145" height="36">
+    <edge>
+      <label x="6" y="-16"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="35" h1="-52" w2="41" h2="56"/>
+    </edge>
+  </node>
+  <node name="sumar puntaje" x="144" y="168" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="se cumplio tiempo?" x="145" y="292" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-15" y="49"/>
+      <bendpoint w1="-104" h1="-2" w2="-296" h2="202"/>
+      <bendpoint w1="-106" h1="-164" w2="-297" h2="68"/>
+      <bendpoint w1="190" h1="-165" w2="-1" h2="67"/>
+    </edge>
+  </node>
+  <node name="traer respuesta" x="540" y="384" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="hay respuesta?" x="336" y="384" width="145" height="36">
+    <edge>
+      <label x="-10" y="-15"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="evaluar" x="336" y="264" width="145" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="fin" x="26" y="385" width="176" height="60"/>
+  <deployment graphicalInfoFile="/Movix-BPM/src/main/jpdl/.trivia.gpd.xml" imageFile="/Movix-BPM/src/main/jpdl/trivia.jpg" serverName="localhost" serverPort="8080" serverDeployer="/gpd-deployer/upload">
+    <classesAndResources>
+      <element type="java" value="/Movix-BPM/src/main/java/cl/movix/actions/ComienzoTrivia.java"/>
+      <element type="java" value="/Movix-BPM/src/main/java/cl/movix/actions/ConcursoTimeoutHandler.java"/>
+      <element type="java" value="/Movix-BPM/src/main/java/cl/movix/actions/TimeoutHandler.java"/>
+    </classesAndResources>
+  </deployment>
+</root-container>
