@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='MovixServicesService' targetNamespace='http://ws.movix.cl/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ws.movix.cl/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://ws.movix.cl/' version='1.0' xmlns:tns='http://ws.movix.cl/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:element name='cobrar' type='tns:cobrar'/>
+   <xs:element name='cobrarResponse' type='tns:cobrarResponse'/>
+   <xs:element name='enviarPregunta' type='tns:enviarPregunta'/>
+   <xs:element name='enviarPreguntaResponse' type='tns:enviarPreguntaResponse'/>
+   <xs:element name='reminder' type='tns:reminder'/>
+   <xs:element name='reminderResponse' type='tns:reminderResponse'/>
+   <xs:element name='sumarPuntaje' type='tns:sumarPuntaje'/>
+   <xs:element name='sumarPuntajeResponse' type='tns:sumarPuntajeResponse'/>
+   <xs:complexType name='cobrar'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='arg0' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='cobrarResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:boolean'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='enviarPregunta'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='enviarPreguntaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='sumarPuntaje'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='arg0' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='sumarPuntajeResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='reminder'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='reminderResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='MovixServices_cobrar'>
+  <part element='tns:cobrar' name='cobrar'/>
+ </message>
+ <message name='MovixServices_cobrarResponse'>
+  <part element='tns:cobrarResponse' name='cobrarResponse'/>
+ </message>
+ <message name='MovixServices_enviarPregunta'>
+  <part element='tns:enviarPregunta' name='enviarPregunta'/>
+ </message>
+ <message name='MovixServices_enviarPreguntaResponse'>
+  <part element='tns:enviarPreguntaResponse' name='enviarPreguntaResponse'/>
+ </message>
+ <message name='MovixServices_reminder'>
+  <part element='tns:reminder' name='reminder'/>
+ </message>
+ <message name='MovixServices_reminderResponse'>
+  <part element='tns:reminderResponse' name='reminderResponse'/>
+ </message>
+ <message name='MovixServices_sumarPuntaje'>
+  <part element='tns:sumarPuntaje' name='sumarPuntaje'/>
+ </message>
+ <message name='MovixServices_sumarPuntajeResponse'>
+  <part element='tns:sumarPuntajeResponse' name='sumarPuntajeResponse'/>
+ </message>
+ <portType name='MovixServices'>
+  <operation name='cobrar' parameterOrder='cobrar'>
+   <input message='tns:MovixServices_cobrar'/>
+   <output message='tns:MovixServices_cobrarResponse'/>
+  </operation>
+  <operation name='enviarPregunta' parameterOrder='enviarPregunta'>
+   <input message='tns:MovixServices_enviarPregunta'/>
+   <output message='tns:MovixServices_enviarPreguntaResponse'/>
+  </operation>
+  <operation name='reminder' parameterOrder='reminder'>
+   <input message='tns:MovixServices_reminder'/>
+   <output message='tns:MovixServices_reminderResponse'/>
+  </operation>
+  <operation name='sumarPuntaje' parameterOrder='sumarPuntaje'>
+   <input message='tns:MovixServices_sumarPuntaje'/>
+   <output message='tns:MovixServices_sumarPuntajeResponse'/>
+  </operation>
+ </portType>
+ <binding name='MovixServicesBinding' type='tns:MovixServices'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='cobrar'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='enviarPregunta'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='reminder'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='sumarPuntaje'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='MovixServicesService'>
+  <port binding='tns:MovixServicesBinding' name='MovixServicesPort'>
+   <soap:address location='http://localhost:8080/MovixWS/MovixServices'/>
+  </port>
+ </service>
+</definitions>
