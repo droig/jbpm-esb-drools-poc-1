@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="trivia2" width="902" height="458">
+  <node name="inicio" x="156" y="60" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cobro exitoso?" x="540" y="60" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-103" h1="-42" w2="89" h2="-42"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cobro" x="348" y="60" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-97" y="-6"/>
+    </edge>
+  </node>
+  <node name="espera de respuesta" x="528" y="252" width="157" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-203" h1="-2" w2="1" h2="82"/>
+    </edge>
+  </node>
+  <node name="envio de pregunta" x="540" y="168" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="enviar msg a cliente" x="528" y="348" width="157" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-40" h1="-45" w2="-40" h2="51"/>
+    </edge>
+  </node>
+  <node name="respuesta correcta" x="336" y="168" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="sumar puntaje" x="144" y="168" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="se cumplio tiempo?" x="144" y="264" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-15" y="49"/>
+      <bendpoint w1="-106" h1="-3" w2="-502" h2="201"/>
+      <bendpoint w1="-107" h1="-147" w2="-503" h2="57"/>
+      <bendpoint w1="328" h1="-149" w2="-68" h2="55"/>
+    </edge>
+  </node>
+  <node name="fin" x="144" y="396" width="132" height="36"/>
+  <node name="error-fin" x="348" y="-24" width="132" height="36"/>
+  <deployment graphicalInfoFile="/Movix-BPM/src/main/jpdl/.trivia.gpd.xml" imageFile="/Movix-BPM/src/main/jpdl/trivia.jpg" serverName="localhost" serverPort="8080" serverDeployer="/gpd-deployer/upload"/>
+</root-container>

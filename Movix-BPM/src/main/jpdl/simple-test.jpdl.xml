@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.2"  name="simple-test">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<decision name="decision1">
+		<event type="node-enter">
+			<script>
+				System.out.println(&quot;DEsde el nodo script:&quot; + var );
+			</script>
+		</event>
+		<transition to="end-state2" name="fin2">
+			<condition expression='#{var == null}'></condition>
+		</transition>
+		<transition to="end-state1" name="fin1">
+			<condition expression='#{var != null}'></condition>
+		</transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

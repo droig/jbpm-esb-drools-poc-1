@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="simple-test" width="1045" height="428">
+  <node name="start-state1" x="264" y="12" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="decision1" x="264" y="150" width="132" height="36">
+    <edge>
+      <label x="-10" y="-22"/>
+    </edge>
+    <edge>
+      <label x="-3" y="-24"/>
+    </edge>
+  </node>
+  <node name="end-state1" x="67" y="277" width="132" height="36"/>
+  <node name="end-state2" x="463" y="283" width="132" height="36"/>
+</root-container>

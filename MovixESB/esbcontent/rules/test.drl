@@ -1,0 +1,47 @@
+#created on: Oct 30, 2006
+package cl.movix.rules
+
+#list any import classes here.
+import org.jboss.soa.esb.message.Message;
+
+import cl.movic.bean.Pregunta;
+import cl.movic.bean.Respuesta;
+import cl.movic.bean.RespuestaCliente;
+
+
+rule "Logging"
+when
+   pregunta: Pregunta()
+   respuesta: Respuesta()
+then
+   System.out.println("Pregunta DRL: " + pregunta.getPregunta());
+   System.out.println("Respuesta DRL: " + respuesta.getRespuesta());
+end
+
+rule "evaluacion pregunta 1"
+when 
+	m : Message ()
+	pregunta: Pregunta(pregunta == "pregunta 1")
+	respuesta: Respuesta(respuesta == "respuesta 1")
+then
+	m.getBody().add("esCorrecta","si");
+end
+
+rule "evaluacion pregunta 2"
+when 
+	m : Message ()
+	pregunta: Pregunta(pregunta == "pregunta 2")
+	respuesta: Respuesta(respuesta == "respuesta 2")
+then
+	m.getBody().add("esCorrecta","si");
+end
+
+rule "evaluacion pregunta 3"
+when 
+	m : Message ()
+	pregunta: Pregunta(pregunta == "pregunta 3")
+	respuesta: Respuesta(respuesta == "respuesta 3")
+then
+	m.getBody().add("esCorrecta","si");
+end
+

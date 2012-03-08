@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<jbossesb parameterReloadSecs="5"
+ xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd">
+ <providers>
+  <http-provider name="punto-entrada">
+   <http-bus busid="punto-entrada"/>
+  </http-provider>
+  <jms-provider connection-factory="ConnectionFactory" name="JBoss Messaging">
+   <jms-bus busid="startChannel">
+    <jms-message-filter dest-name="queue/movix_start_process" dest-type="QUEUE"/>
+   </jms-bus>
+  </jms-provider>
+ </providers>
+ <services>
+  <service category="MovixServices" description="NuevaTrivia"
+   invmScope="GLOBAL" name="NuevaTrivia">
+   <listeners>
+    <http-gateway busidref="punto-entrada" name="http-call" urlPattern="/cell-msg/*"/>
+   </listeners>
+   <actions>
+    <action
+     class="org.jboss.soa.esb.actions.scripting.GroovyActionProcessor" name="fin-concurso-setup">
+     <property name="script" value="/scripts/timeout_setup.groovy"/>
+    </action>
+    <action class="cl.movic.action.NuevaTriviaAction" name="NuevaTriviaAction"/>
+    <action class="org.jboss.soa.esb.services.jbpm.actions.BpmProcessor" name="ComenzarTrivia">
+     <property name="command" value="StartProcessInstanceCommand"/>
+     <property name="process-definition-name" value="trivia"/>
+     <property name="reply-to-originator" value="false"/>
+     <property name="esbToBpmVars">
+      <mapping bpm="numero" esb="body.numero"/>
+      <mapping bpm="timeout" esb="body.timeout"/>
+      <mapping bpm="timeOutFlag" esb="body.timeOutFlag"/>
+     </property>
+    </action>
+    <action
+     class="org.jboss.soa.esb.actions.scripting.GroovyActionProcessor" name="echo">
+     <property name="script" value="/scripts/echoAction.groovy"/>
+    </action>
+   </actions>
+  </service>
+  <service category="MovixServices" description="MovixSoapServices"
+   invmScope="GLOBAL" name="Cobro">
+   <actions>
+    <action class="org.jboss.soa.esb.actions.SystemPrintln" name="before">
+     <property name="message" value="Empezando la llamada al servicio"/>
+    </action>
+    <action class="cl.movic.action.RequestMapper" name="request-mapper"/>
+    <action class="org.jboss.soa.esb.actions.soap.SOAPClient" name="CobrarClient">
+     <property name="wsdl" value="http://127.0.0.1:8088/mockMovixServicesBinding?WSDL"/>
+     <property name="SOAPAction" value="cobrar"/>
+     <property name="responseAsOgnlMap" value="true"/>
+    </action>
+    <action
+     class="org.jboss.soa.esb.actions.scripting.GroovyActionProcessor" name="setup_respuesta">
+     <property name="script" value="/scripts/cobro_response.groovy"/>
+    </action>
+   </actions>
+  </service>
+  <service category="MovixServices" description="envio de pregunta"
+   invmScope="GLOBAL" name="envio_pregunta">
+   <actions>
+    <action class="cl.movic.action.ws.EnviarPreguntaMapper" name="envio-pregunta-map"/>
+    <action class="org.jboss.soa.esb.actions.soap.SOAPClient" name="enviar_pregunta">
+     <property name="wsdl" value="http://127.0.0.1:8088/mockMovixServicesBinding?WSDL"/>
+     <property name="SOAPAction" value="enviarPregunta"/>
+     <property name="responseAsOgnlMap" value="true"/>
+    </action>
+    <action
+     class="org.jboss.soa.esb.actions.scripting.GroovyActionProcessor" name="setup_respuesta">
+     <property name="script" value="/scripts/enviarPregunta.groovy"/>
+    </action>
+   </actions>
+  </service>
+  <service category="MovixServices"
+   description="Traer respuesta cliente" invmScope="GLOBAL" name="Traer_Respuesta">
+   <actions>
+    <action class="org.jboss.soa.esb.actions.SystemPrintln" name="print">
+     <property name="message" value="Buscando la respuesta del numero de telefono"/>
+    </action>
+    <action class="cl.movic.action.TraerRespuestaAction" name="var_setup"/>
+    <action class="org.jboss.soa.esb.actions.soap.SOAPClient" name="obtener_respuesta">
+     <property name="wsdl" value="http://127.0.0.1:8088/mockMovixServicesBinding?WSDL"/>
+     <property name="SOAPAction" value="obtenerRespuesta"/>
+     <property name="responseAsOgnlMap" value="true"/>
+    </action>
+    <!-- -->
+    <action
+     class="org.jboss.soa.esb.actions.scripting.GroovyActionProcessor" name="setup_respuesta">
+     <property name="script" value="/scripts/setup_respuesta.groovy"/>
+    </action>
+   </actions>
+  </service>
+  <service category="MovixServices" description="Evaluar Respuesta"
+   invmScope="GLOBAL" name="Evaluar_Respuesta">
+   <actions>
+    <action class="org.jboss.soa.esb.actions.SystemPrintln" name="evalprint">
+     <property name="message" value="**************evaluando**********************"/>
+    </action>
+    <action class="cl.movic.action.EvalAction" name="var_setup"/>
+    <action class="org.jboss.soa.esb.actions.BusinessRulesProcessor" name="eval_respuesta">
+     <property name="ruleSet" value="/rules/eval_respuesta.drl"/>
+     <property name="ruleReload" value="true"/>
+     <property name="object-paths">
+      <object-path esb="body.pregunta"/>
+      <object-path esb="body.respuesta"/>
+     </property>
+    </action>
+    <!-- -->
+    <action
+     class="org.jboss.soa.esb.actions.scripting.GroovyActionProcessor" name="print">
+     <property name="script" value="/scripts/print_eval.groovy"/>
+    </action>
+   </actions>
+  </service>
+  <service category="MovixServices"
+   description="Sumar puntaje al numero" invmScope="GLOBAL" name="SumarPuntaje">
+   <actions>
+    <action class="org.jboss.soa.esb.actions.SystemPrintln" name="print">
+     <property name="message" value="Sumando puntaje..."/>
+    </action>
+   </actions>
+  </service>
+ </services>
+</jbossesb>
