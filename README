@@ -15,3 +15,11 @@ Se asume la correcta instalacion de SOA-P y jBoss Developer Studio configurado p
 1: MovixWS
 2: MovixESB
 4: Movix-BPM
+
+Para el deploy del proceso, abrir en JDev Studio el proceso src/main/jpdl/trivia.jpdl.xml, menú superior: "jBPM -> Deploy Process"
+
+
+Para iniciar un proceso:
+
+Visitar la URL: 
+http://localhost:8080/MovixESB/http/cell-msg/{numeroCel}   <--- numero supuesto de telefono que inicia el proceso.
