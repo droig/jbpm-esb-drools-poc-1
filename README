@@ -1,0 +1,17 @@
+POC Movix
+
+Instrucciones:
+
+Se asume la correcta instalacion de SOA-P y jBoss Developer Studio configurado para trabajar con los runtimes de jBPM y ESB.
+
+- Crear tres proyectos:
+* Movix-BPM: crear "jBPM 3 Project"
+* MovixESB: crear "ESB Project"
+* MovixWS: crear "Dynamic Web Proyect"
+
+- Colocar los contenidos de los 3 proyetos en Git en su proyecto correspondiente.
+- Deployar en orden:
+
+1: MovixWS
+2: MovixESB
+4: Movix-BPM
